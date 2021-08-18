@@ -41,7 +41,7 @@ function getData(){
 function destroy() {
     $data = getData();
     foreach ($data as $key => $entry) {
-        if($entry->id == $_POST['id']){
+        if($entry['id']== $_POST['delete']){
             unset($data[$key]);
             file_put_contents("./data.txt", json_encode(array_values($data)));
             return;
@@ -63,7 +63,7 @@ function find($id) {
 function update() {
     $data = getData();
     $updatedAnimal = [
-            "id" =>$_POST['id'],
+            "id" => $_POST['update'],
             "species" => $_POST['species'],
             "name" => $_POST['name'],
             "age" => $_POST['age']

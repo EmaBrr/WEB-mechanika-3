@@ -3,23 +3,25 @@
 
     if(isset($_GET['update'])){
         $animal = find($_GET['update']);
-        // print_r($animal);
     }
 
-    // if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name']))  {
-    //     echo "kazkas";
-    //     update();
-    //     header("location:./");
-    // }
+    if (isset($_POST['update']))  {
+        echo "kazkas";
+        update();
+        header("location:./");
+        die;
+    }
 
-    if(isset($_GET['delete'])){
+    if(isset($_POST['delete'])){
         destroy();
         header("location:./");
+        die;
     }
 
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST['create'])) {
         store();
         header("location:./");
+        die;
     };
 
 ?>
@@ -43,7 +45,15 @@
         <input type="text" name="name"  value=<?=(isset($animal)) ? $animal['name'] :""?>>
         <label for="">Age: </label>
         <input type="text" name="age"  value=<?=(isset($animal)) ? $animal['age'] :""?>>
-        <button type="submit">Įrašom kažką</button>
+        <?php 
+        if (isset($animal)) {
+            echo '<button class = "btn btn-primary" type="submit" name = "update" value="'. $animal['id'] .'"  >Atnaujinti</button>';
+        }
+        else {
+            echo '<button class = "btn btn-info" type="submit" name = "create" >Įrašom kažką</button>';
+        }
+        ?>
+        <!-- <button type="submit">Įrašom kažką</button> -->
     </form>
     <br>
     <table class="table">
@@ -70,7 +80,7 @@
                         </form>
                    </td>';
             echo '<td> 
-                        <form action="" method="get">
+                        <form action="" method="post">
                             <button type="submit" class = "btn btn-danger" name = "delete" value="'. $animal['id'] .'">Ištrinti</button>
                         </form>
                   </td>';
